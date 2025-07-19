@@ -221,7 +221,7 @@ export default function TimesheetDetail() {
             <div className="container mx-auto">
                 <div className="bg-white rounded-md shadow p-6 mb-8">
                     <div className="flex justify-between items-center mb-2">
-                        <h2 className="text-lg font-bold">This week &apos s timesheet</h2>
+                        <h2 className="text-lg font-bold">This week&apos;s timesheet</h2>
                         <div className="flex flex-col items-end">
                             <div className="flex flex-col gap-1 mt-1">
                                 <span className="text-xs text-center text-gray-900">{total}/40 hrs</span>
