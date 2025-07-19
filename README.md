@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ticktock – Timesheet Management App
 
-## Getting Started
+A simple SaaS-style Timesheet Management application built with Next.js 15, TypeScript, and TailwindCSS.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Login**: Dummy authentication with email & password (session-based).
+- **Dashboard**: View your timesheets in a table (Week #, Date, Status, Actions).
+- **Timesheet Detail**: View and add daily tasks for each week.
+- **Responsive UI**: Clean, modern, and mobile-friendly.
+- **Form Validation**: Alerts for missing required fields.
+- **Internal API Routes**: All data is served via Next.js API routes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All API endpoints are implemented as internal Next.js API routes under `/src/app/api`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **`/api/users`**
 
-## Learn More
+  - `POST`: Dummy login (returns user and token if credentials are valid)
+  - `GET`: Returns all mock users (for demo/testing)
 
-To learn more about Next.js, take a look at the following resources:
+- **`/api/weekly-timesheets`**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - `GET`: Returns a list of timesheet summaries for the dashboard (filterable by userId/status)
+  - `POST`: Create a new timesheet (mock, for extensibility)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **`/api/detailed-weekly-timesheets`**
+  - `GET`: Returns detailed timesheet data for a given week (filterable by timesheetId/userId)
+  - `POST`: Create a new detailed timesheet (mock, for extensibility)
 
-## Deploy on Vercel
+## Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Install dependencies**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   ```
+
+2. **Run the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+3. **Open in your browser**
+   ```
+   http://localhost:3000
+   ```
+
+## Tech Stack
+
+- [Next.js 15](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+
+## Project Structure
+
+- `/src/app` – Main app pages and components
+- `/src/utils` – Authentication utilities
+- `/src/app/api` – Internal API routes (mock data)
+
+## Assumptions & Notes
+
+- **Authentication** is dummy (no real backend, password is always `"password123"`).
+- **Session** is stored in `sessionStorage`.
+- **API** is fully mocked via Next.js API routes.
+- **Add/Edit** for timesheet entries is client-side only (not persisted).
+- **No next-auth**: Custom auth logic is used (next-auth is a bonus).
+- **No tests**: Testing is optional for this assignment.
+
+## Time Spent
+
+- ~4-6 hours (including UI, API, and polish)
+
+---
+
+**Thank you for reviewing!**
