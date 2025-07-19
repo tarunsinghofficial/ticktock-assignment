@@ -62,7 +62,7 @@ All API endpoints are implemented as internal Next.js API routes under `/src/app
 
 ## Assumptions & Notes
 
-- **Authentication** is dummy (no real backend, password is always `"password123"`).
+- **Authentication** is dummy (no real backend, password is always `"password123"`). (**Example**: Use email as `charlie@example.com` and password as `password123`
 - **Session** is stored in `sessionStorage`.
 - **API** is fully mocked via Next.js API routes.
 - **Add/Edit** for timesheet entries is client-side only (not persisted).
