@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Ellipsis } from "lucide-react";
 import Footer from "@/app/components/Footer";
+import type { Timesheet, TimesheetEntry } from "@/app/api/_mockData";
 
 const dayOrder = [
     "Monday",
@@ -24,29 +25,10 @@ function groupByDay(entries: TimesheetEntry[]): { [key: string]: TimesheetEntry[
     return grouped;
 }
 
-// Add type for timesheet entry and data
-interface TimesheetEntry {
-    day: string;
-    project: string;
-    task: string;
-    hours: number;
-    type: string;
-    date?: string;
-}
-interface TimesheetData {
-    entries: TimesheetEntry[];
-    totalHours: number;
-    weekStartDate?: string;
-    weekEndDate?: string;
-    [key: string]: any;
-}
-
 export default function TimesheetDetail() {
     const { id } = useParams();
-    const router = useRouter();
-    const [data, setData] = useState<TimesheetData | null>(null);
+    const [data, setData] = useState<Timesheet | null>(null);
     const [loading, setLoading] = useState(true);
-    // Use a unique key for menuOpenIdx: `${day}-${i}`
     const [menuOpenIdx, setMenuOpenIdx] = useState<string | null>(null);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const [showAddModal, setShowAddModal] = useState<{ open: boolean; day: string | null }>({ open: false, day: null });
@@ -96,20 +78,19 @@ export default function TimesheetDetail() {
             return;
         }
         if (!showAddModal.day || !data) return;
-        const entry = {
+        const entry: TimesheetEntry = {
             day: showAddModal.day,
             project: newTask.project,
             task: newTask.description,
             hours: newTask.hours,
             type: newTask.type,
-            date: data.entries.find((e: any) => e.day === showAddModal.day)?.date || "",
+            date: data.entries?.find((e) => e.day === showAddModal.day)?.date || "",
         };
-        // Add to data.entries
-        setData((prev: any) => ({
+        setData((prev) => prev ? ({
             ...prev,
             entries: [...(prev.entries || []), entry],
             totalHours: (prev.totalHours || 0) + newTask.hours,
-        }));
+        }) : prev);
         setShowAddModal({ open: false, day: null });
         setNewTask({ project: "", type: "", description: "", hours: 1 });
     };
@@ -147,15 +128,13 @@ export default function TimesheetDetail() {
     const handleTaskOptions = (key: string) => {
         setMenuOpenIdx(key === menuOpenIdx ? null : key);
     };
-    const handleEdit = (entry: any) => {
-        // Implement edit logic here
+    const handleEdit = (entry: TimesheetEntry) => {
         setMenuOpenIdx(null);
-        alert("Edit clicked for " + (entry.task || entry.project));
+        alert(`Edit clicked for ${(entry.task || entry.project).replace(/'/g, "&apos;")}`);
     };
-    const handleDelete = (entry: any) => {
-        // Implement delete logic here
+    const handleDelete = (entry: TimesheetEntry) => {
         setMenuOpenIdx(null);
-        alert("Delete clicked for " + (entry.task || entry.project));
+        alert(`Delete clicked for ${(entry.task || entry.project).replace(/'/g, "&apos;")}`);
     };
 
     return (
@@ -229,7 +208,6 @@ export default function TimesheetDetail() {
                                 className="flex-1 bg-blue-600 text-white rounded-lg px-2.5 py-1.5 font-semibold hover:bg-blue-700"
                                 onClick={handleAddTask}
                                 type="button"
-
                             >Add entry</button>
                             <button
                                 className="flex-1 border border-gray-200 rounded-lg px-2.5 py-1.5 font-semibold  hover:bg-gray-100"
@@ -243,10 +221,9 @@ export default function TimesheetDetail() {
             <div className="container mx-auto">
                 <div className="bg-white rounded-md shadow p-6 mb-8">
                     <div className="flex justify-between items-center mb-2">
-                        <h2 className="text-lg font-bold">This week's timesheet</h2>
+                        <h2 className="text-lg font-bold">This week &apos s timesheet</h2>
                         <div className="flex flex-col items-end">
                             <div className="flex flex-col gap-1 mt-1">
-                                {/* Remove tooltip wrapper */}
                                 <span className="text-xs text-center text-gray-900">{total}/40 hrs</span>
                                 <span className="text-xs text-right text-gray-400">{percent}%</span>
                                 <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden relative">
@@ -267,7 +244,7 @@ export default function TimesheetDetail() {
                             <div key={day} className="py-2 grid grid-cols-8 space-x-2">
                                 <div className="font-semibold text-gray-900 mb-2 text-md">{day.slice(0, 3)}</div>
                                 <div className="space-y-2 col-span-7">
-                                    {(grouped[day] || []).map((entry: any, i: number) => {
+                                    {(grouped[day] || []).map((entry, i) => {
                                         const entryKey = `${day}-${i}`;
                                         return (
                                             <div key={i} className="flex items-center bg-white border border-[#e5e7eb] rounded-md px-4 py-1.5 relative">

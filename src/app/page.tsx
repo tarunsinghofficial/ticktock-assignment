@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { getCurrentUser, isAuthenticated, clearAuthData } from "@/utils/auth";
 
 export default function Home() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ id: number; name: string; email: string } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,6 @@ export default function Home() {
   const handleSignOut = () => {
     clearAuthData();
     setUser(null);
-    // Optionally reload or redirect
     router.refresh();
   };
 

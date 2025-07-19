@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { users } from '../_mockData';
+import { users, User } from '../_mockData';
 
 export async function GET() {
     return NextResponse.json({
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const { email, password } = body;
         // Password is always 'password123' for demo
-        const user = users.find((u: any) => u.email === email);
+        const user = users.find((u: User) => u.email === email);
         if (user && password === 'password123') {
             return NextResponse.json({
                 success: true,

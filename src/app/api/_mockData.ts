@@ -1,4 +1,38 @@
-export const users = [
+// src/app/api/_mockData.ts
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+export interface Week {
+    weekNumber: number;
+    date: string;
+    days: { day: string; date: string }[];
+}
+
+export interface TimesheetEntry {
+    day: string;
+    date: string;
+    project: string;
+    hours: number;
+    task: string;
+    type: string;
+}
+
+export interface Timesheet {
+    id: number;
+    weekNumber: number;
+    date: string;
+    status: string;
+    userId: number;
+    userName: string;
+    totalHours?: number;
+    entries?: TimesheetEntry[];
+}
+
+export const users: User[] = [
     { id: 1, name: 'Alice Smith', email: 'alice@example.com' },
     { id: 2, name: 'Bob Johnson', email: 'bob@example.com' },
     { id: 3, name: 'Charlie Lee', email: 'charlie@example.com' },
@@ -6,7 +40,7 @@ export const users = [
     { id: 5, name: 'Evan Kim', email: 'evan@example.com' },
 ];
 
-export const weeks = [
+export const weeks: Week[] = [
     {
         weekNumber: 1, date: '2024-01-01 to 2024-01-04', days: [
             { day: 'Monday', date: '2024-01-01' },
@@ -49,7 +83,7 @@ export const weeks = [
     },
 ];
 
-export const projects = [
+export const projects: string[] = [
     'Project A',
     'Project B',
     'Project C',
